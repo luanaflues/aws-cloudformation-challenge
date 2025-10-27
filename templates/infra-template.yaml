@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template CloudFormation para criar um bucket S3 e uma instância EC2
+
+Parameters:
+  InstanceType:
+    Description: Tipo de instância EC2
+    Type: String
+    Default: t2.micro
+    AllowedValues: [t2.micro, t3.micro]
+  KeyName:
+    Description: Nome da Key Pair para acesso SSH
+    Type: AWS::EC2::KeyPair::KeyName
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'luanaflues-bucket-${AWS::Region}-${AWS::AccountId}'
+      Tags:
+        - Key: Name
+          Value: LuanaBucket
+
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      ImageId: ami-0e86e20dae9224db8 # Amazon Linux 2023 (us-east-1, atualize para sua região)
+      Tags:
+        - Key: Name
+          Value: LuanaEC2Instance
+
+Outputs:
+  BucketName:
+    Description: Nome do bucket S3 criado
+    Value: !Ref MyS3Bucket
+  InstanceId:
+    Description: ID da instância EC2 criada
+    Value: !Ref MyEC2Instance
+  InstancePublicIP:
+    Description: IP público da instância EC2
+    Value: !GetAtt MyEC2Instance.PublicIp
