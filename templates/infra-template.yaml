@@ -25,7 +25,7 @@ Resources:
     Properties:
       InstanceType: !Ref InstanceType
       KeyName: !Ref KeyName
-      ImageId: ami-0e86e20dae9224db8 # Amazon Linux 2023 (us-east-1, atualize para sua região)
+      ImageId: ami-000a6b7d4a67ff033 # Amazon Linux 2023 para us-east-2
       Tags:
         - Key: Name
           Value: LuanaEC2Instance
@@ -40,3 +40,4 @@ Outputs:
   InstancePublicIP:
     Description: IP público da instância EC2
     Value: !GetAtt MyEC2Instance.PublicIp
+    
